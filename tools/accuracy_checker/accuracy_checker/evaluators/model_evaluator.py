@@ -199,7 +199,11 @@ class ModelEvaluator(BaseEvaluator):
         predictions_to_store = []
         for batch_id, (batch_input_ids, batch_annotation) in enumerate(self.dataset):
             filled_inputs, batch_meta, batch_identifiers = self._get_batch_input(batch_annotation)
-            batch_predictions = self.launcher.predict(filled_inputs, batch_meta, **kwargs)
+            filled_inputs_long = []
+            for input_dict in filled_inputs:
+                new_input = {k: v.astype("int64") for k, v in input_dict.items()}
+                filled_inputs_long.append(new_input)
+            batch_predictions = self.launcher.predict(filled_inputs_long, batch_meta, **kwargs)
             if raw_outputs_callback:
                 raw_outputs_callback(
                     batch_predictions, network=self.launcher.network, exec_network=self.launcher.exec_network

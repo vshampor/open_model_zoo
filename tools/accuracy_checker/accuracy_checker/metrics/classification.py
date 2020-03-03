@@ -54,6 +54,7 @@ class ClassificationAccuracy(PerImageEvaluationMetric):
         self.accuracy = AverageMeter(loss)
 
     def update(self, annotation, prediction):
+        print(self.accuracy.evaluate())
         return self.accuracy.update(annotation.label, prediction.top_k(self.top_k))
 
     def evaluate(self, annotations, predictions):

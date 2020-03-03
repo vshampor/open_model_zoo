@@ -62,10 +62,11 @@ class ScoreF1(PerImageEvaluationMetric):
                 max_f1_score = f1 if f1 > max_f1_score else max_f1_score
         self.f1 += max_f1_score
         self.total += 1
+        print((self.f1 / self.total) * 100)
         return max_f1_score
 
     def evaluate(self, annotation, prediction):
-        return self.f1 / self.total
+        return (self.f1 / self.total) * 100
 
 
 class ExactMatchScore(PerImageEvaluationMetric):
@@ -90,4 +91,4 @@ class ExactMatchScore(PerImageEvaluationMetric):
         return max_exact_match
 
     def evaluate(self, annotation, prediction):
-        return self.exact_match / self.total
+        return (self.exact_match / self.total) * 100
